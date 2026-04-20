@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Porra Mundial 2026 - Mis Pronósticos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- html2pdf.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+        }
+
+        .match-row:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        /* Colores de los grupos según imágenes de referencia */
+        .border-group-A { border-left: 8px solid #adb5bd; }
+        .border-group-B { border-left: 8px solid #e03131; }
+        .border-group-C { border-left: 8px solid #ffec99; }
+        .border-group-D { border-left: 8px solid #1971c2; }
+        .border-group-E { border-left: 8px solid #f08c00; }
+        .border-group-F { border-left: 8px solid #087f5b; }
+        .border-group-G { border-left: 8px solid #b197fc; }
+        .border-group-H { border-left: 8px solid #66d9e8; }
+        .border-group-I { border-left: 8px solid #5f3dc4; }
+        .border-group-J { border-left: 8px solid #ffa8a8; }
+        .border-group-K { border-left: 8px solid #f06595; }
+        .border-group-L { border-left: 8px solid #a61e4d; }
+
+        .flag-icon {
+            width: 22px;
+            height: 15px;
+            object-fit: cover;
+            border-radius: 2px;
+            display: inline-block;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+            vertical-align: middle;
+        }
+
+        .group-table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .group-table {
+            min-width: 500px;
+        }
+
+        .goal-input {
+            transition: all 0.15s ease;
+        }
+        .goal-input:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+        }
+
+        /* Estilos específicos para impresión/PDF */
+        @media print {
+            .no-print { display: none !important; }
+            body { background-color: white; }
+            #predictionsContainer { padding: 0; margin: 0; }
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- CABECERA CON IMAGEN -->
+    <div class="w-full bg-slate-900 no-print">
+        <img src="pollamundial.png" alt="Porra Mundial 2026" class="w-full max-h-[300px] object-contain md:object-cover mx-auto" onerror="this.style.display='none'">
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 pb-24 pt-8">
+        
+        <!-- CONTENEDOR PRINCIPAL PARA EL PDF -->
+        <div id="predictionsContainer">
+            
+            <!-- Encabezado para el PDF -->
+            <div class="hidden print:block mb-8 text-center border-b pb-4">
+                <h1 class="text-3xl font-black uppercase">Mis Pronósticos Mundial 2026</h1>
+            </div>
+
+            <!-- SECCIÓN: DATOS DEL PARTICIPANTE -->
+            <section class="mb-10 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                <div class="flex items-center gap-3 mb-6">
+                    <h2 class="text-xl font-extrabold text-slate-900 uppercase tracking-tight">Datos del Participante</h2>
+                    <div class="h-1 flex-grow bg-slate-200 rounded-full"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="participant-name" class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Nombre Completo</label>
+                        <input type="text" id="participant-name" placeholder="Ej. Juan Pérez" 
+                            class="w-full p-3 bg-slate-50 rounded-lg border border-slate-200 focus:ring-2 focus:ring-emerald-500 outline-none font-medium">
+                    </div>
+                    <div>
+                        <label for="participant-phone" class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Teléfono / WhatsApp</label>
+                        <input type="text" id="participant-phone" placeholder="Ej. 5512345678" 
+                            class="w-full p-3 bg-slate-50 rounded-lg border border-slate-200 focus:ring-2 focus:ring-emerald-500 outline-none font-medium">
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN: REGLAS Y PUNTAJES -->
+            <section class="mb-10 bg-blue-50 p-6 rounded-xl border border-blue-100 shadow-sm">
+                <div class="flex items-center gap-3 mb-6">
+                    <h2 class="text-xl font-extrabold text-blue-900 uppercase tracking-tight">Reglas y Puntajes</h2>
+                    <div class="h-1 flex-grow bg-blue-200 rounded-full"></div>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <div class="bg-white p-4 rounded-lg border border-blue-100 text-center shadow-sm">
+                        <span class="block text-2xl font-black text-blue-600">5</span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase leading-tight">Marcador Exacto</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border border-blue-100 text-center shadow-sm">
+                        <span class="block text-2xl font-black text-blue-400">3</span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase leading-tight">Resultado (G/E)</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border border-yellow-100 text-center shadow-sm">
+                        <span class="block text-2xl font-black text-yellow-600">40</span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase leading-tight">Campeón</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border border-slate-100 text-center shadow-sm">
+                        <span class="block text-2xl font-black text-slate-500">30</span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase leading-tight">Subcampeón</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border border-orange-100 text-center shadow-sm">
+                        <span class="block text-2xl font-black text-orange-600">20</span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase leading-tight">3º Puesto</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border border-amber-100 text-center shadow-sm">
+                        <span class="block text-2xl font-black text-amber-700">10</span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase leading-tight">4º Puesto</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN: CUADRO DE HONOR -->
+            <section class="mb-12">
+                <div class="flex items-center gap-3 mb-6">
+                    <h2 class="text-2xl font-extrabold text-slate-900 uppercase tracking-tight">Cuadro de Honor</h2>
+                    <div class="h-1 flex-grow bg-slate-200 rounded-full"></div>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Puesto 1</span>
+                        <label class="block text-lg font-bold text-slate-800 mb-2">🏆 Campeón</label>
+                        <select id="honor-1" class="honor-select w-full p-2 bg-slate-50 rounded-md border-slate-200 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"></select>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Puesto 2</span>
+                        <label class="block text-lg font-bold text-slate-800 mb-2">🥈 Subcampeón</label>
+                        <select id="honor-2" class="honor-select w-full p-2 bg-slate-50 rounded-md border-slate-200 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"></select>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Puesto 3</span>
+                        <label class="block text-lg font-bold text-slate-800 mb-2">🥉 Tercer Lugar</label>
+                        <select id="honor-3" class="honor-select w-full p-2 bg-slate-50 rounded-md border-slate-200 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"></select>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Puesto 4</span>
+                        <label class="block text-lg font-bold text-slate-800 mb-2">🏅 Cuarto Lugar</label>
+                        <select id="honor-4" class="honor-select w-full p-2 bg-slate-50 rounded-md border-slate-200 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"></select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN: FASE DE GRUPOS -->
+            <section class="mb-12">
+                <div class="flex items-center gap-3 mb-6">
+                    <h2 class="text-2xl font-extrabold text-slate-900 uppercase tracking-tight">Fase de Grupos</h2>
+                    <div class="h-1 flex-grow bg-slate-200 rounded-full"></div>
+                </div>
+                <div id="groups-container" class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                    <!-- Los grupos se inyectan dinámicamente aquí -->
+                </div>
+            </section>
+        </div>
+
+        <!-- SECCIÓN DE ACCIONES (NO SE INCLUYE EN EL PDF) -->
+        <section class="mt-8 flex flex-col items-center gap-6 border-t border-slate-200 pt-8 no-print">
+            <div class="flex flex-wrap justify-center gap-4">
+                <button id="btn-clear-all" class="bg-red-100 hover:bg-red-200 text-red-700 font-bold py-3 px-6 rounded-xl shadow-sm transition flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    Limpiar todo
+                </button>
+                <div id="autoSaveIndicator" class="bg-emerald-50 text-emerald-700 px-5 py-3 rounded-xl text-sm font-bold flex items-center gap-2 shadow-sm">
+                    <span>💾</span> <span id="saveStatusText">Guardado automático activo</span>
+                </div>
+            </div>
+            
+            <button id="btn-generate-pdf" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-5 px-14 rounded-2xl shadow-xl transform transition hover:scale-105 active:scale-95 flex items-center gap-4 text-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                DESCARGAR PRONÓSTICOS (PDF)
+            </button>
+        </section>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-500 py-8 text-center no-print">
+        <p class="text-sm tracking-widest uppercase font-bold">Mundial 2026 - Porra Profesional</p>
+    </footer>
+
+    <script>
+        // ======================== DATOS OFICIALES ========================
+        const countryCodes = {
+            "México": "mx", "Sudáfrica": "za", "Corea del Sur": "kr", "República Checa": "cz",
+            "Canadá": "ca", "Bosnia y Herzegovina": "ba", "Catar": "qa", "Suiza": "ch",
+            "Brasil": "br", "Marruecos": "ma", "Haití": "ht", "Escocia": "gb-sct",
+            "Estados Unidos": "us", "Paraguay": "py", "Australia": "au", "Turquía": "tr",
+            "Alemania": "de", "Curazao": "cw", "Costa de Marfil": "ci", "Ecuador": "ec",
+            "Países Bajos": "nl", "Japón": "jp", "Suecia": "se", "Túnez": "tn",
+            "Bélgica": "be", "Egipto": "eg", "Irán": "ir", "Nueva Zelanda": "nz",
+            "España": "es", "Cabo Verde": "cv", "Arabia Saudita": "sa", "Uruguay": "uy",
+            "Francia": "fr", "Senegal": "sn", "Irak": "iq", "Noruega": "no",
+            "Argentina": "ar", "Argelia": "dz", "Austria": "at", "Jordania": "jo",
+            "Portugal": "pt", "RD Congo": "cd", "Uzbekistán": "uz", "Colombia": "co",
+            "Inglaterra": "gb-eng", "Croacia": "hr", "Ghana": "gh", "Panamá": "pa"
+        };
+
+        const worldCupData = [
+            { id: 'A', name: 'Grupo A', class: 'border-group-A', matches: [
+                { date: '11/06', time: '21:00', jor: 'J1', team1: 'México', team2: 'Sudáfrica' },
+                { date: '12/06', time: '4:00', jor: 'J1', team1: 'Corea del Sur', team2: 'República Checa' },
+                { date: '18/06', time: '18:00', jor: 'J2', team1: 'República Checa', team2: 'Sudáfrica' },
+                { date: '19/06', time: '3:00', jor: 'J2', team1: 'México', team2: 'Corea del Sur' },
+                { date: '25/06', time: '3:00', jor: 'J3', team1: 'República Checa', team2: 'México' },
+                { date: '25/06', time: '3:00', jor: 'J3', team1: 'Sudáfrica', team2: 'Corea del Sur' }
+            ]},
+            { id: 'B', name: 'Grupo B', class: 'border-group-B', matches: [
+                { date: '12/06', time: '21:00', jor: 'J1', team1: 'Canadá', team2: 'Bosnia y Herzegovina' },
+                { date: '13/06', time: '21:00', jor: 'J1', team1: 'Catar', team2: 'Suiza' },
+                { date: '18/06', time: '21:00', jor: 'J2', team1: 'Suiza', team2: 'Bosnia y Herzegovina' },
+                { date: '19/06', time: '0:00', jor: 'J2', team1: 'Canadá', team2: 'Catar' },
+                { date: '24/06', time: '21:00', jor: 'J3', team1: 'Suiza', team2: 'Canadá' },
+                { date: '24/06', time: '21:00', jor: 'J3', team1: 'Bosnia y Herzegovina', team2: 'Catar' }
+            ]},
+            { id: 'C', name: 'Grupo C', class: 'border-group-C', matches: [
+                { date: '14/06', time: '0:00', jor: 'J1', team1: 'Brasil', team2: 'Marruecos' },
+                { date: '14/06', time: '3:00', jor: 'J1', team1: 'Haití', team2: 'Escocia' },
+                { date: '20/06', time: '0:00', jor: 'J2', team1: 'Escocia', team2: 'Marruecos' },
+                { date: '20/06', time: '3:00', jor: 'J2', team1: 'Brasil', team2: 'Haití' },
+                { date: '25/06', time: '0:00', jor: 'J3', team1: 'Escocia', team2: 'Brasil' },
+                { date: '25/06', time: '0:00', jor: 'J3', team1: 'Marruecos', team2: 'Haití' }
+            ]},
+            { id: 'D', name: 'Grupo D', class: 'border-group-D', matches: [
+                { date: '13/06', time: '3:00', jor: 'J1', team1: 'Estados Unidos', team2: 'Paraguay' },
+                { date: '14/06', time: '6:00', jor: 'J1', team1: 'Australia', team2: 'Turquía' },
+                { date: '19/06', time: '21:00', jor: 'J2', team1: 'Estados Unidos', team2: 'Australia' },
+                { date: '20/06', time: '6:00', jor: 'J2', team1: 'Turquía', team2: 'Paraguay' },
+                { date: '26/06', time: '4:00', jor: 'J3', team1: 'Turquía', team2: 'Estados Unidos' },
+                { date: '26/06', time: '4:00', jor: 'J3', team1: 'Paraguay', team2: 'Australia' }
+            ]},
+            { id: 'E', name: 'Grupo E', class: 'border-group-E', matches: [
+                { date: '14/06', time: '19:00', jor: 'J1', team1: 'Alemania', team2: 'Curazao' },
+                { date: '15/06', time: '1:00', jor: 'J1', team1: 'Costa de Marfil', team2: 'Ecuador' },
+                { date: '20/06', time: '22:00', jor: 'J2', team1: 'Alemania', team2: 'Costa de Marfil' },
+                { date: '21/06', time: '2:00', jor: 'J2', team1: 'Ecuador', team2: 'Curazao' },
+                { date: '25/06', time: '22:00', jor: 'J3', team1: 'Curazao', team2: 'Costa de Marfil' },
+                { date: '25/06', time: '22:00', jor: 'J3', team1: 'Ecuador', team2: 'Alemania' }
+            ]},
+            { id: 'F', name: 'Grupo F', class: 'border-group-F', matches: [
+                { date: '14/06', time: '22:00', jor: 'J1', team1: 'Países Bajos', team2: 'Japón' },
+                { date: '15/06', time: '4:00', jor: 'J1', team1: 'Suecia', team2: 'Túnez' },
+                { date: '20/06', time: '19:00', jor: 'J2', team1: 'Países Bajos', team2: 'Suecia' },
+                { date: '21/06', time: '6:00', jor: 'J2', team1: 'Túnez', team2: 'Japón' },
+                { date: '26/06', time: '1:00', jor: 'J3', team1: 'Japón', team2: 'Suecia' },
+                { date: '26/06', time: '1:00', jor: 'J3', team1: 'Túnez', team2: 'Países Bajos' }
+            ]},
+            { id: 'G', name: 'Grupo G', class: 'border-group-G', matches: [
+                { date: '15/06', time: '21:00', jor: 'J1', team1: 'Bélgica', team2: 'Egipto' },
+                { date: '16/06', time: '3:00', jor: 'J1', team1: 'Irán', team2: 'Nueva Zelanda' },
+                { date: '21/06', time: '21:00', jor: 'J2', team1: 'Bélgica', team2: 'Irán' },
+                { date: '22/06', time: '3:00', jor: 'J2', team1: 'Nueva Zelanda', team2: 'Egipto' },
+                { date: '27/06', time: '5:00', jor: 'J3', team1: 'Egipto', team2: 'Irán' },
+                { date: '27/06', time: '5:00', jor: 'J3', team1: 'Nueva Zelanda', team2: 'Bélgica' }
+            ]},
+            { id: 'H', name: 'Grupo H', class: 'border-group-H', matches: [
+                { date: '15/06', time: '18:00', jor: 'J1', team1: 'España', team2: 'Cabo Verde' },
+                { date: '16/06', time: '0:00', jor: 'J1', team1: 'Arabia Saudita', team2: 'Uruguay' },
+                { date: '21/06', time: '18:00', jor: 'J2', team1: 'España', team2: 'Arabia Saudita' },
+                { date: '22/06', time: '0:00', jor: 'J2', team1: 'Uruguay', team2: 'Cabo Verde' },
+                { date: '27/06', time: '2:00', jor: 'J3', team1: 'Cabo Verde', team2: 'Arabia Saudita' },
+                { date: '27/06', time: '2:00', jor: 'J3', team1: 'Uruguay', team2: 'España' }
+            ]},
+            { id: 'I', name: 'Grupo I', class: 'border-group-I', matches: [
+                { date: '16/06', time: '21:00', jor: 'J1', team1: 'Francia', team2: 'Senegal' },
+                { date: '17/06', time: '0:00', jor: 'J1', team1: 'Irak', team2: 'Noruega' },
+                { date: '22/06', time: '23:00', jor: 'J2', team1: 'Francia', team2: 'Irak' },
+                { date: '23/06', time: '2:00', jor: 'J2', team1: 'Noruega', team2: 'Senegal' },
+                { date: '26/06', time: '21:00', jor: 'J3', team1: 'Noruega', team2: 'Francia' },
+                { date: '26/06', time: '21:00', jor: 'J3', team1: 'Senegal', team2: 'Irak' }
+            ]},
+            { id: 'J', name: 'Grupo J', class: 'border-group-J', matches: [
+                { date: '17/06', time: '3:00', jor: 'J1', team1: 'Argentina', team2: 'Argelia' },
+                { date: '17/06', time: '6:00', jor: 'J1', team1: 'Austria', team2: 'Jordania' },
+                { date: '22/06', time: '19:00', jor: 'J2', team1: 'Argentina', team2: 'Austria' },
+                { date: '23/06', time: '5:00', jor: 'J2', team1: 'Jordania', team2: 'Argelia' },
+                { date: '28/06', time: '4:00', jor: 'J3', team1: 'Argelia', team2: 'Austria' },
+                { date: '28/06', time: '4:00', jor: 'J3', team1: 'Jordania', team2: 'Argentina' }
+            ]},
+            { id: 'K', name: 'Grupo K', class: 'border-group-K', matches: [
+                { date: '17/06', time: '19:00', jor: 'J1', team1: 'Portugal', team2: 'RD Congo' },
+                { date: '18/06', time: '4:00', jor: 'J1', team1: 'Uzbekistán', team2: 'Colombia' },
+                { date: '23/06', time: '19:00', jor: 'J2', team1: 'Portugal', team2: 'Uzbekistán' },
+                { date: '24/06', time: '4:00', jor: 'J2', team1: 'Colombia', team2: 'RD Congo' },
+                { date: '28/06', time: '1:30', jor: 'J3', team1: 'Colombia', team2: 'Portugal' },
+                { date: '28/06', time: '1:30', jor: 'J3', team1: 'RD Congo', team2: 'Uzbekistán' }
+            ]},
+            { id: 'L', name: 'Grupo L', class: 'border-group-L', matches: [
+                { date: '17/06', time: '22:00', jor: 'J1', team1: 'Inglaterra', team2: 'Croacia' },
+                { date: '18/06', time: '1:00', jor: 'J1', team1: 'Ghana', team2: 'Panamá' },
+                { date: '23/06', time: '22:00', jor: 'J2', team1: 'Inglaterra', team2: 'Ghana' },
+                { date: '24/06', time: '1:00', jor: 'J2', team1: 'Panamá', team2: 'Croacia' },
+                { date: '27/06', time: '23:00', jor: 'J3', team1: 'Panamá', team2: 'Inglaterra' },
+                { date: '27/06', time: '23:00', jor: 'J3', team1: 'Croacia', team2: 'Ghana' }
+            ]}
+        ];
+
+        // ======================== LÓGICA DE RENDERIZADO ========================
+
+        function getFlagImg(countryName) {
+            const code = countryCodes[countryName];
+            if (!code) return '';
+            return `<img src="https://flagcdn.com/w40/${code}.png" class="flag-icon" alt="${countryName}" loading="lazy">`;
+        }
+
+        function renderGroups() {
+            const container = document.getElementById('groups-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            worldCupData.forEach(group => {
+                let matchesHtml = '';
+                group.matches.forEach((match, idx) => {
+                    const homeId = `goal_${group.id}_${idx}_home`;
+                    const awayId = `goal_${group.id}_${idx}_away`;
+                    matchesHtml += `
+                        <tr class="match-row border-b border-slate-50 last:border-0 text-sm">
+                            <td class="px-3 py-3 leading-tight">
+                                <div class="font-bold text-slate-700">${match.date}</div>
+                                <div class="text-[10px] text-slate-400 uppercase font-medium">${match.time} | ${match.jor}</div>
+                            </td>
+                            <td class="px-3 py-3 text-right font-medium text-slate-600">
+                                <div class="flex items-center justify-end gap-2">
+                                    <span class="truncate max-w-[100px] sm:max-w-none">${match.team1}</span>
+                                    ${getFlagImg(match.team1)}
+                                </div>
+                            </td>
+                            <td class="px-2 py-3">
+                                <div class="flex items-center justify-center gap-1">
+                                    <input type="number" min="0" placeholder="-" id="${homeId}" 
+                                        class="goal-input w-10 h-10 text-center bg-white border border-slate-200 rounded font-bold text-emerald-600 focus:outline-none">
+                                    <span class="text-slate-300 font-bold">-</span>
+                                    <input type="number" min="0" placeholder="-" id="${awayId}" 
+                                        class="goal-input w-10 h-10 text-center bg-white border border-slate-200 rounded font-bold text-emerald-600 focus:outline-none">
+                                </div>
+                            </td>
+                            <td class="px-3 py-3 font-medium text-slate-600">
+                                <div class="flex items-center justify-start gap-2">
+                                    ${getFlagImg(match.team2)}
+                                    <span class="truncate max-w-[100px] sm:max-w-none">${match.team2}</span>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                const groupHTML = `
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden ${group.class}">
+                        <div class="bg-slate-50 px-4 py-3 border-b border-slate-100 flex justify-between items-center">
+                            <h3 class="font-black text-slate-800 text-xl tracking-tighter">${group.name}</h3>
+                            <span class="text-[10px] bg-white border px-2 py-1 rounded font-bold text-slate-500 uppercase">Fase Inicial</span>
+                        </div>
+                        <div class="group-table-wrapper">
+                            <table class="w-full text-left border-collapse group-table">
+                                <thead class="bg-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                    <tr>
+                                        <th class="px-3 py-2">Fecha / Hora</th>
+                                        <th class="px-3 py-2 text-right">Local</th>
+                                        <th class="px-2 py-2 text-center w-24">Goles</th>
+                                        <th class="px-3 py-2">Visitante</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${matchesHtml}</tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', groupHTML);
+            });
+        }
+
+        function populateHonorRoll() {
+            const allTeams = new Set();
+            worldCupData.forEach(g => g.matches.forEach(m => { allTeams.add(m.team1); allTeams.add(m.team2); }));
+            const sortedTeams = Array.from(allTeams).sort();
+            const selects = document.querySelectorAll('.honor-select');
+            selects.forEach(select => {
+                select.innerHTML = '<option value="">Seleccionar equipo...</option>';
+                sortedTeams.forEach(team => {
+                    const option = document.createElement('option');
+                    option.value = team;
+                    option.textContent = team;
+                    select.appendChild(option);
+                });
+            });
+        }
+
+        // ======================== FUNCIONES DE SISTEMA ========================
+
+        function syncInputAttributes() {
+            // Sincroniza el valor actual con el atributo 'value' para que html2canvas los capture en el PDF
+            document.querySelectorAll('input').forEach(input => {
+                input.setAttribute('value', input.value);
+            });
+            document.querySelectorAll('select').forEach(select => {
+                const selected = select.options[select.selectedIndex]?.text || "No elegido";
+                // Añadimos un pequeño marcador temporal para el PDF si es necesario
+            });
+        }
+
+        function saveToLocalStorage() {
+            const data = {
+                participantName: document.getElementById('participant-name').value,
+                participantPhone: document.getElementById('participant-phone').value,
+                honor1: document.getElementById('honor-1').value,
+                honor2: document.getElementById('honor-2').value,
+                honor3: document.getElementById('honor-3').value,
+                honor4: document.getElementById('honor-4').value,
+                goals: {}
+            };
+            document.querySelectorAll('#groups-container input').forEach(input => {
+                if (input.id) data.goals[input.id] = input.value;
+            });
+            localStorage.setItem('worldcup_v2_data', JSON.stringify(data));
+            
+            const status = document.getElementById('saveStatusText');
+            if (status) {
+                status.innerText = '✓ Pronósticos guardados';
+                setTimeout(() => status.innerText = 'Guardado automático activo', 2000);
+            }
+        }
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('worldcup_v2_data');
+            if (!saved) return;
+            try {
+                const data = JSON.parse(saved);
+                if (data.participantName) document.getElementById('participant-name').value = data.participantName;
+                if (data.participantPhone) document.getElementById('participant-phone').value = data.participantPhone;
+                if (data.honor1) document.getElementById('honor-1').value = data.honor1;
+                if (data.honor2) document.getElementById('honor-2').value = data.honor2;
+                if (data.honor3) document.getElementById('honor-3').value = data.honor3;
+                if (data.honor4) document.getElementById('honor-4').value = data.honor4;
+                if (data.goals) {
+                    Object.keys(data.goals).forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.value = data.goals[id];
+                    });
+                }
+            } catch(e) { console.error("Error cargando datos:", e); }
+        }
+
+        // ======================== INICIALIZACIÓN ========================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGroups();
+            populateHonorRoll();
+            loadFromLocalStorage();
+
+            // Guardado automático al escribir
+            const mainContainer = document.getElementById('predictionsContainer');
+            mainContainer.addEventListener('input', saveToLocalStorage);
+            mainContainer.addEventListener('change', saveToLocalStorage);
+
+            // Botón Limpiar
+            document.getElementById('btn-clear-all').addEventListener('click', () => {
+                if (confirm('⚠️ ¿Estás seguro de borrar todos tus pronósticos? Esta acción no se puede deshacer.')) {
+                    localStorage.removeItem('worldcup_v2_data');
+                    window.location.reload();
+                }
+            });
+
+            // Botón PDF con corrección de "hoja en blanco"
+            document.getElementById('btn-generate-pdf').addEventListener('click', async function() {
+                const btn = this;
+                const element = document.getElementById('predictionsContainer');
+                
+                // 1. Sincronizar valores actuales con atributos DOM
+                syncInputAttributes();
+
+                const rawName = document.getElementById('participant-name').value.trim() || 'Participante';
+                const filename = `${rawName.replace(/\s+/g, '_')}_Mundial_2026.pdf`;
+
+                btn.disabled = true;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '⏳ GENERANDO ARCHIVO...';
+
+                const opt = {
+                    margin: [10, 5, 10, 5],
+                    filename: filename,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { 
+                        scale: 2, 
+                        useCORS: true, 
+                        logging: false,
+                        scrollX: 0,
+                        scrollY: 0
+                    },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
+
+                try {
+                    await new Promise(resolve => setTimeout(resolve, 300)); // Pequeña espera para render
+                    await html2pdf().set(opt).from(element).save();
+                } catch (err) {
+                    console.error(err);
+                    alert("Error al generar el PDF. Por favor intenta de nuevo.");
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                }
+            });
+
+            // Validaciones
+            document.getElementById('participant-phone').addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            });
+            document.getElementById('participant-name').addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+            });
+        });
+    </script>
+</body>
+</html>
